@@ -16,6 +16,10 @@ import { reactive } from 'vue';
       },
     ]
   })
+
+  const getTarefasPendentes = () => {
+    return estado.tarefas.filter(tarefa => !tarefa.finalizada)
+  }
 </script>
 
 <template>
@@ -23,7 +27,7 @@ import { reactive } from 'vue';
     <header class="p-5 mb-4 mt-4 bg-light rounded-3">
       <h1>Minhas tarefas</h1>
       <p>
-        Você possui 7 tarefas pendentes
+        Você possui {{ getTarefasPendentes().length}} tarefas pendentes
       </p>
     </header>
     <form>
@@ -45,8 +49,8 @@ import { reactive } from 'vue';
     </form>
     <ul class="list-group mt-4">
       <li class="list-group-item" v-for="tarefa in estado.tarefas">
-        <input :checked="tarefa.finalizada" type="checkbox" for="">
-        <label class="ms-3">
+        <input :checked="tarefa.finalizada" :id="tarefa.titulo" type="checkbox" for="">
+        <label :class="{ done: tarefa.finalizada === true}" class="ms-3" :for="tarefa.titulo">
           {{ tarefa.titulo }}
         </label>
       </li>
@@ -55,4 +59,7 @@ import { reactive } from 'vue';
 </template>
 
 <style scoped>
+.done {
+  text-decoration: line-through;
+}
 </style>
